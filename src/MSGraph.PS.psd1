@@ -10,7 +10,7 @@
 RootModule = 'MSGraph.PS.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.16.0.1'
+ModuleVersion = '1.16.0.2'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop'
@@ -51,7 +51,7 @@ DotNetFrameworkVersion = '4.5'
 # Modules that must be imported into the global environment prior to importing this module
 RequiredModules = @(
     "MSAL.PS"
-    @{ ModuleName='MSAL.PS'; Guid='c765c957-c730-4520-9c36-6a522e35d60b'; ModuleVersion='4.1.0.2' }
+    #@{ ModuleName='MSAL.PS'; Guid='c765c957-c730-4520-9c36-6a522e35d60b'; ModuleVersion='4.1.0.2' }
 )
 
 # Assemblies that must be loaded prior to importing this module
