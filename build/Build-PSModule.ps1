@@ -56,9 +56,16 @@ $xmlPackagesConfig.Load($PackagesConfigFileInfo.FullName)
 ## Copy Packages to Module Output Directory
 foreach ($package in $xmlPackagesConfig.packages.package) {
     [string[]] $targetFrameworks = $package.targetFramework
-    #if (!$targetFrameworks) { [string[]] $targetFrameworks = "net45","netstandard1.3" }
+    if (!$targetFrameworks) {
+        [string[]] $targetFrameworks = "net45","netstandard1.3"
+        switch ($package.id) {
+            'Microsoft.Graph' { $targetFrameworks = "net45","netstandard1.3"; break }
+            'Microsoft.Graph.Core' { $targetFrameworks = "net45","netstandard1.1"; break }
+            'System.ValueTuple' { $targetFrameworks = "portable-net40+sl4+win8+wp8","netstandard1.0"; break }
+        }
+    }
     foreach ($targetFramework in $targetFrameworks) {
-        [System.IO.DirectoryInfo] $PackageDirectory = Join-Path $PackagesDirectoryInfo.FullName ("{0}.{1}\lib\{2}" -f $package.id, $package.version, $targetFramework)
+        [System.IO.DirectoryInfo] $PackageDirectory = Join-Path $PackagesDirectoryInfo.FullName ("{0}.{1}\???\{2}" -f $package.id, $package.version, $targetFramework) -Resolve
         [System.IO.DirectoryInfo] $PackageOutputDirectory = "{0}\{1}.{2}\{3}" -f $ModuleOutputDirectoryInfo.FullName, $package.id, $package.version, $targetFramework
         $PackageOutputDirectory
         Assert-DirectoryExists $PackageOutputDirectory -ErrorAction Stop | Out-Null
@@ -75,6 +82,5 @@ $ModuleFileList = Get-RelativePath $ModuleFileListFileInfo.FullName -BaseDirecto
 $ModuleRequiredAssemblies = Get-RelativePath $ModuleRequiredAssembliesFileInfo.FullName -BaseDirectory $ModuleOutputDirectoryInfo.FullName -ErrorAction Stop
 
 ## Update Module Manifest in Module Output Directory
-Update-ModuleManifest -Path $ModuleManifestOutputFileInfo.FullName -FileList $ModuleFileList -NestedModules $ModuleManifest.NestedModules -RequiredAssemblies $ModuleRequiredAssemblies
-
-## PowerShell Core fails to load assembly if net45 dll comes before netcoreapp2.1 dll in the FileList so fix the order before publishing.
+Update-ModuleManifest -Path $ModuleManifestOutputFileInfo.FullName -FileList $ModuleFileList -NestedModules $ModuleManifest.NestedModules -CmdletsToExport $ModuleManifest.CmdletsToExport -AliasesToExport $ModuleManifest.AliasesToExport #-RequiredAssemblies $ModuleRequiredAssemblies
+Write-Warning "PowerShell Core fails to load assembly if net45 dll comes before netcore dll in the FileList so fix the order before publishing."

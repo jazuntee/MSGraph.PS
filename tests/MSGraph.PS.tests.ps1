@@ -9,16 +9,15 @@ Import-Module ..\src\MSGraph.PS.psd1
 [uri] $RedirectUri = 'https://login.microsoftonline.com/common/oauth2/nativeclient'
 
 ### Test PublicClient
-[string] $PublicClientId = 'e94dfd9b-a9f6-42df-8350-f56105097891'
-[string[]] $Scopes = @(
+[string] $PublicClientId = 'fcbe5a30-c893-4df5-8176-e6d2b5fffff6'
+[string[]] $DelegatedScopes = @(
     #'https://graph.microsoft.com/.default'
-    'https://graph.microsoft.com/Directory.AccessAsUser.All'
-    'https://graph.microsoft.com/Directory.Read.All'
+    'https://graph.microsoft.com/User.Read'
 )
 
 ## Test Public Client Automatic
-$MsGraph = Connect-MsGraph -ClientId $PublicClientId -TenantId $TenantId -Scopes $Scopes -Verbose
-$MsGraph.Me | Invoke-MsGraphRequest
+$MsGraph = Connect-MsGraph -ClientId $PublicClientId -TenantId $TenantId -Scopes $DelegatedScopes -Verbose
+$MsGraph.Me | Invoke-MsGraphRequest -Scopes $DelegatedScopes
 
 
 ### Test ConfidentialClient

@@ -20,7 +20,7 @@ function Invoke-MsGraphRequest {
         [parameter(Mandatory=$false, ValueFromPipeline=$true, ParameterSetName='InputObject', Position=0)]
         [object] $InputObject,
         # Array of scopes requested for resource
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory=$false)]
         [string[]] $Scopes
     )
 

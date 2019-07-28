@@ -10,10 +10,10 @@
 RootModule = 'MSGraph.PS.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.16.0.2'
+ModuleVersion = '1.16.0.3'
 
 # Supported PSEditions
-CompatiblePSEditions = 'Desktop'
+CompatiblePSEditions = 'Core','Desktop'
 
 # ID used to uniquely identify this module
 GUID = 'df19aabe-4560-4975-8317-503e615e7414'
@@ -50,18 +50,19 @@ DotNetFrameworkVersion = '4.5'
 
 # Modules that must be imported into the global environment prior to importing this module
 RequiredModules = @(
-    "MSAL.PS"
-    #@{ ModuleName='MSAL.PS'; Guid='c765c957-c730-4520-9c36-6a522e35d60b'; ModuleVersion='4.1.0.2' }
+    @{ ModuleName='MSAL.PS'; Guid='c765c957-c730-4520-9c36-6a522e35d60b'; ModuleVersion='4.2.1.3' }
 )
 
 # Assemblies that must be loaded prior to importing this module
-#RequiredAssemblies =
-#                '..\build\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll',
-#                '..\build\packages\Microsoft.Graph.Core.1.15.0\lib\net45\Microsoft.Graph.Core.dll',
-#                '..\build\packages\Microsoft.Graph.1.16.0\lib\net45\Microsoft.Graph.dll'
+# RequiredAssemblies =
+#                 '..\build\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll',
+#                 '..\build\packages\Microsoft.Graph.Core.1.15.0\lib\net45\Microsoft.Graph.Core.dll',
+#                 '..\build\packages\Microsoft.Graph.1.16.0\lib\net45\Microsoft.Graph.dll'
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-#ScriptsToProcess = @()
+ScriptsToProcess = @(
+    '.\MSGraph.PS.ps1'
+)
 
 # Type files (.ps1xml) to be loaded when importing this module
 # TypesToProcess = @()
@@ -99,7 +100,17 @@ AliasesToExport = @()
 # ModuleList = @()
 
 # List of all files packaged with this module
-#FileList = @()
+# FileList = @(
+#     '..\build\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll'
+#     '..\build\packages\System.Net.Http.4.3.3\ref\netstandard1.3\System.Net.Http.dll'
+#     '..\build\packages\Newtonsoft.Json.9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll'
+#     '..\build\packages\Microsoft.Graph.Core.1.15.0\lib\netstandard1.1\Microsoft.Graph.Core.dll'
+#     '..\build\packages\Microsoft.Graph.1.16.0\lib\netstandard1.3\Microsoft.Graph.dll'
+#     '..\build\packages\System.ValueTuple.4.3.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll'
+#     '..\build\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll'
+#     '..\build\packages\Microsoft.Graph.Core.1.15.0\lib\net45\Microsoft.Graph.Core.dll'
+#     '..\build\packages\Microsoft.Graph.1.16.0\lib\net45\Microsoft.Graph.dll'
+# )
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
@@ -118,6 +129,16 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         # ReleaseNotes = ''
+
+        # Prerelease string of this module
+        # Prerelease = ''
+
+        # Flag to indicate whether the module requires explicit user acceptance for install/update/save
+        # RequireLicenseAcceptance = $false
+
+        # External dependent modules of this module
+        # ExternalModuleDependencies = @()
+
     } # End of PSData hashtable
 
 } # End of PrivateData hashtable
