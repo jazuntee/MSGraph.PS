@@ -9,7 +9,7 @@ Import-Module ..\src\MSGraph.PS.psd1
 [uri] $RedirectUri = 'https://login.microsoftonline.com/common/oauth2/nativeclient'
 
 ### Test PublicClient
-[string] $PublicClientId = 'fcbe5a30-c893-4df5-8176-e6d2b5fffff6'
+[string] $PublicClientId = '5f2d068e-50f9-4f92-b532-c62fa531de1f'
 [string[]] $DelegatedScopes = @(
     #'https://graph.microsoft.com/.default'
     'https://graph.microsoft.com/User.Read'
@@ -17,12 +17,13 @@ Import-Module ..\src\MSGraph.PS.psd1
 
 ## Test Public Client Automatic
 $MsGraph = Connect-MsGraph -ClientId $PublicClientId -TenantId $TenantId -Scopes $DelegatedScopes -Verbose
-$MsGraph.Me | Invoke-MsGraphRequest -Scopes $DelegatedScopes
+$MsGraph.Me | Invoke-MsGraphRequest
+$MsGraph.Users.Request().Filter("DisplayName eq 'Jason Thompson'") | Invoke-MsGraphRequest -Scopes 'https://graph.microsoft.com/User.Read.All'
 
 
 ### Test ConfidentialClient
-[string] $ConfidentialClientId = 'e001258f-ee21-4c08-9205-9031a3a1cfbd'
-[securestring] $ConfidentialClientSecret = Convertto-SecureString 'SuperSecretString' -AsPlainText -Force
+[string] $ConfidentialClientId = 'f3cd10d2-c84d-4b4d-97b5-73109ccef55d'
+[securestring] $ConfidentialClientSecret = ConvertTo-SecureString 'SuperSecretString' -AsPlainText -Force
 [System.Security.Cryptography.X509Certificates.X509Certificate2] $ConfidentialClientCertificate = Get-Item Cert:\CurrentUser\My\b12afe95f226d94dd01d3f61ae3dbb1c4947ef62
 [string[]] $Scopes = @(
     'https://graph.microsoft.com/.default'

@@ -15,7 +15,12 @@ if ($PSEdition -eq 'Desktop') {
 
 [Microsoft.Graph.AuthenticateRequestAsyncDelegate] $AuthenticateRequestAsyncDelegate = {
     param([System.Net.Http.HttpRequestMessage] $requestMessage)
+    #Write-Verbose ($script:Scopes -join ' ')
     $MsalToken = $script:MsalClientApplication | Get-MsalToken -Scopes $script:Scopes -ErrorAction Stop
+    if (Compare-Object ([array]$MsalToken.Scopes) -DifferenceObject $script:Scopes | Where-Object SideIndicator -eq '=>') {
+        $MsalToken = $script:MsalClientApplication | Get-MsalToken -Scopes $script:Scopes -Interactive -ErrorAction Stop
+        Write-Verbose ('Current Scopes: {0}' -f ($MsalToken.Scopes -join ' '))
+    }
     $requestMessage.Headers.Authorization = New-Object System.Net.Http.Headers.AuthenticationHeaderValue ("bearer", $MsalToken.AccessToken)
     return [System.Threading.Tasks.Task]::FromResult(0)
 }

@@ -16,7 +16,7 @@ function Invoke-MsGraphRequest {
     [CmdletBinding(DefaultParameterSetName = 'InputObject')]
     param
     (
-        # Client application options
+        # Request object
         [parameter(Mandatory=$false, ValueFromPipeline=$true, ParameterSetName='InputObject', Position=0)]
         [object] $InputObject,
         # Array of scopes requested for resource
@@ -39,14 +39,23 @@ function Invoke-MsGraphRequest {
         "InputObject" {
             ## InputObject Casting
             if ($InputObject -is [Microsoft.Graph.BaseRequestBuilder]) {
-                $Result = $InputObject.Request().GetAsync().GetAwaiter().GetResult()
+                try {
+                    $Result = $InputObject.Request().GetAsync().GetAwaiter().GetResult()
+                }
+                catch { throw }
             }
             elseif ($InputObject -is [Microsoft.Graph.BaseRequest]) {
-                $Result = $InputObject.GetAsync().GetAwaiter().GetResult()
+                try {
+                    $Result = $InputObject.GetAsync().GetAwaiter().GetResult()
+                }
+                catch { throw }
             }
             elseif ($InputObject -is [System.Net.Http.HttpRequestMessage]) {
-                $script:GraphServiceClient.AuthenticationProvider.AuthenticateRequestAsync($InputObject)
-                $Result = $script:GraphServiceClient.HttpProvider.SendAsync($InputObject)
+                try {
+                    $script:GraphServiceClient.AuthenticationProvider.AuthenticateRequestAsync($InputObject)
+                    $Result = $script:GraphServiceClient.HttpProvider.SendAsync($InputObject)
+                }
+                catch { throw }
             }
             else {
                 # Otherwise, write a terminating error message indicating that input object type is not supported.

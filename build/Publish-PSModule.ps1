@@ -2,7 +2,7 @@ param
 (
 	#
     [parameter(Mandatory=$false)]
-    [string] $ModulePath = ".\release\MSGraph.PS\1.16.0.3",
+    [string] $ModulePath = ".\release\MSGraph.PS\1.18.0.1",
     #
     [parameter(Mandatory=$true)]
     [string] $NuGetApiKey
